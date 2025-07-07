@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "153409193961",
+    "firebase_url": "https://mini-siasat-a36ae-default-rtdb.firebaseio.com",
+    "project_id": "mini-siasat-a36ae",
+    "storage_bucket": "mini-siasat-a36ae.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153409193961:android:9f700a6b31afedf4d8ad78",
+        "android_client_info": {
+          "package_name": "com.example.minisiasat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANFQuUTbgkymYcFTGpck-EXQ7lLaAyYmM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
