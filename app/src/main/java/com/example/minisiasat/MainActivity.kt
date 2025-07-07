@@ -11,6 +11,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
+import com.example.minisiasat.utils.DatabaseNodes
+import com.example.minisiasat.utils.Users
+import com.google.firebase.database.getValue
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,12 +22,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val database = Firebase.database("https://mini-siasat-a36ae-default-rtdb.firebaseio.com")
-        val myRef = database.reference
+        val usersRef = database.getReference(DatabaseNodes.USERS)
 
         val textView = findViewById<TextView>(R.id.textView)
-        myRef.addValueEventListener(object : ValueEventListener{
+        usersRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                textView.text =  snapshot.value?.toString()?:"NO DATA"
+                val builder = StringBuilder()
+                for (userSnapshot in snapshot.children){
+                    val user = userSnapshot.getValue(Users::class.java)
+                    val name = user?.name?:"-"
+                    val email = user?.email?:"-"
+                    builder.append("Name: $name\nEmail: $email\n\n")
+                }
+                textView.text =  if (builder.isNotEmpty()) builder.toString() else "NO DATA"
             }
 
             override fun onCancelled(error: DatabaseError) {
