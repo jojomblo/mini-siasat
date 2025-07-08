@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- drawer_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_home" android:title="Home" android:icon="@android:drawable/ic_menu_info_details"/>
+    <item android:id="@+id/nav_registrasi" android:title="Registrasi Matakuliah" android:icon="@android:drawable/ic_menu_add"/>
+    <item android:id="@+id/nav_kartu_studi" android:title="Kartu Studi" android:icon="@android:drawable/ic_menu_agenda"/>
+    <item android:id="@+id/nav_jadwal_kuliah" android:title="Jadwal Kuliah" android:icon="@android:drawable/ic_menu_my_calendar"/>
+    <item android:id="@+id/nav_hasil_studi" android:title="Hasil Studi" android:icon="@android:drawable/ic_menu_view"/>
+    <item android:id="@+id/nav_transkrip" android:title="Transkrip Nilai" android:icon="@android:drawable/ic_menu_edit"/>
+    <item android:id="@+id/nav_jadwal_mengajar" android:title="Jadwal Mengajar" android:icon="@android:drawable/ic_menu_my_calendar"/>
+    <item android:id="@+id/nav_input_nilai" android:title="Input Nilai" android:icon="@android:drawable/ic_menu_edit"/>
+    <item android:id="@+id/nav_input_jadwal" android:title="Input Jadwal" android:icon="@android:drawable/ic_menu_add"/>
+</menu>

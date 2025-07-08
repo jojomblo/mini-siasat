@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="brown">#7B5523</color>
+    <color name="brown_transparent">#CC7B5523</color> <!-- 80% opacity -->
+    <color name="warningRed">#D32F2F</color>
+    <color name="green">#00FF00</color>
+    <color name="blue">#0000FF</color>
+    <color name="lightGray">#D3D3D3</color>
+    <color name="darkGray">#A9A9A9</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/dialog_add_schedule.xml -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/courseCodeInput"
+            android:hint="Kode Matakuliah (5 karakter, misal: TC531)"
+            android:maxLength="5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/courseNameInput"
+            android:hint="Nama Matakuliah"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/creditsInput"
+            android:hint="SKS"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/departmentInput"
+            android:hint="Departemen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/lecturerIdInput"
+            android:hint="Kode Dosen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:id="@+id/daySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/roomInput"
+            android:hint="Ruangan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/academicYearInput"
+            android:hint="Tahun Akademik (misal: 2024/2025)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/semesterInput"
+            android:hint="Semester (misal: Ganjil)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/capacityInput"
+            android:hint="Kapasitas"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Jadwal dosen & jam (sudah ada di bawah) -->
+        <Button
+            android:id="@+id/checkAvailabilityButton"
+            android:text="Cek Jadwal Dosen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/timeSelectionLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:text="Pilih Jam Mulai - Selesai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <GridLayout
+                android:id="@+id/timeGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="3"
+                android:orientation="horizontal"
+                android:padding="4dp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

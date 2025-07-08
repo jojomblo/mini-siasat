@@ -6,7 +6,6 @@ import com.google.firebase.database.IgnoreExtraProperties
 data class Students(
     val name: String? = null,
     val major: String? = null,
-    val entryYear: Int? = null,
-    val email: String? = null,
+    val entryYear: String? = null,
     val userUid: String? = null
-)
+): java.io.Serializable
