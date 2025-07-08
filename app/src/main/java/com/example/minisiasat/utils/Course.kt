@@ -15,4 +15,4 @@ data class Course(
     val academicYear: String? = null,
     val semester: String? = null,
     val capacity: Int? = null
-)
+) : java.io.Serializable

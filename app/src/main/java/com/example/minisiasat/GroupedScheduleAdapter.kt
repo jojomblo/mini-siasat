@@ -7,11 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minisiasat.utils.Course
 
-// --- PERUBAHAN DI SINI ---
-// Tambahkan parameter 'lecturerNames' pada constructor
+// 1. Tambahkan parameter 'onItemClicked' pada constructor
 class GroupedScheduleAdapter(
     private val items: List<ScheduleListItem>,
-    private val lecturerNames: Map<String, String> // Map untuk menyimpan ID -> Nama Dosen
+    private val lecturerNames: Map<String, String>,
+    private val onItemClicked: ((Course) -> Unit)? = null // Lambda untuk menangani klik
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -43,14 +43,20 @@ class GroupedScheduleAdapter(
             }
             courseName.text = courseTitle
             time.text = "${course.day}, ${course.time}"
-
             val lecturerName = lecturerNames[course.lecturerId] ?: course.lecturerId
-            lecturer.text = "Dosen : ${lecturerName}"
-
+            lecturer.text = "Dosen: $lecturerName"
             room.text = "Ruang : ${course.room}"
             sks.text = "SKS : ${course.credits}"
             year.text = "Tahun Akademik : ${course.academicYear} - ${course.semester}"
             capacity.text = "Kapasitas : ${course.capacity ?: "Tidak diketahui"}"
+
+            // 2. Set OnClickListener untuk seluruh item view
+            // Hanya aktifkan listener jika diset (tidak null)
+            if(onItemClicked != null) {
+                itemView.setOnClickListener {
+                    onItemClicked.invoke(course)
+                }
+            }
         }
     }
 

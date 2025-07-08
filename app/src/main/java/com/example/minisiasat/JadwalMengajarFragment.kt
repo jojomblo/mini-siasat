@@ -45,6 +45,8 @@ class JadwalMengajarFragment : Fragment() {
         }
     }
 
+    // ... (kode lain di atasnya biarkan)
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,11 +54,20 @@ class JadwalMengajarFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_jadwal_mengajar, container, false)
         scheduleRecyclerView = view.findViewById(R.id.scheduleRecyclerView)
 
-        adapter = GroupedScheduleAdapter(displayList, lecturerNamesMap)
+        // --- INI PERUBAHAN UTAMANYA ---
+        // Implementasikan lambda onItemClicked saat membuat adapter
+        adapter = GroupedScheduleAdapter(displayList, lecturerNamesMap) { selectedCourse ->
+            // Aksi yang dijalankan saat item diklik: Buka CourseDetailFragment
+            val fragment = CourseDetailFragment.newInstance(selectedCourse)
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null) // Agar tombol 'back' berfungsi
+                .commit()
+        }
+
         scheduleRecyclerView.layoutManager = LinearLayoutManager(context)
         scheduleRecyclerView.adapter = adapter
 
-        // Pastikan user tidak null sebelum memuat data
         currentUser?.let {
             loadAllData(it.kode)
         } ?: run {
@@ -65,6 +76,8 @@ class JadwalMengajarFragment : Fragment() {
 
         return view
     }
+
+    // ... (sisa fungsi lainnya tetap sama)
 
     private fun loadAllData(lecturerId: String?) {
         if (lecturerId == null) {
