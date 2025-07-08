@@ -13,7 +13,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/brown_transparent"
         android:padding="16dp">
 
 
@@ -69,6 +68,88 @@
             app:layout_constraintStart_toEndOf="@id/lecturerIcon"
             app:layout_constraintTop_toTopOf="@id/lecturerIcon"
             tools:text="Dosen: 67045" />
+
+        <ImageView
+            android:id="@+id/roomLocationIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lecturerIcon"
+            app:tint="?android:attr/textColorSecondary" />
+
+        <TextView
+            android:id="@+id/roomLocationTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintBottom_toBottomOf="@id/roomLocationIcon"
+            app:layout_constraintStart_toEndOf="@id/roomLocationIcon"
+            app:layout_constraintTop_toTopOf="@id/roomLocationIcon"
+            tools:text="Ruang : FTI456" />
+
+        <ImageView
+            android:id="@+id/yearIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_year"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/roomLocationTextView"
+            app:tint="?android:attr/textColorSecondary" />
+
+        <TextView
+            android:id="@+id/yearTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintBottom_toBottomOf="@id/yearIcon"
+            app:layout_constraintStart_toEndOf="@id/yearIcon"
+            app:layout_constraintTop_toTopOf="@id/yearIcon"
+            tools:text="Tahun Ajaran: " />
+        <ImageView
+            android:id="@+id/capacityIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_capacity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/yearTextView"
+            app:tint="?android:attr/textColorSecondary" />
+
+        <TextView
+            android:id="@+id/capacityTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintBottom_toBottomOf="@id/capacityIcon"
+            app:layout_constraintStart_toEndOf="@id/capacityIcon"
+            app:layout_constraintTop_toTopOf="@id/capacityIcon"
+            tools:text="Kapasitas: " />
+        <ImageView
+            android:id="@+id/sksIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_sks"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/capacityTextView"
+            app:tint="?android:attr/textColorSecondary" />
+
+        <TextView
+            android:id="@+id/sksTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintBottom_toBottomOf="@id/sksIcon"
+            app:layout_constraintStart_toEndOf="@id/sksIcon"
+            app:layout_constraintTop_toTopOf="@id/sksIcon"
+            tools:text="SKS: " />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

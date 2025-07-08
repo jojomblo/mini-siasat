@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView = findViewById(R.id.nav_view)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar,
@@ -84,10 +85,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
         when (item.itemId) {
             R.id.nav_home -> showHome()
             R.id.nav_input_jadwal -> showInputJadwalFragment()
-            // Add other menu items as needed
+            R.id.nav_jadwal_mengajar -> showJadwalMengajarFragment()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -103,6 +105,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun showHome() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, HomeFragment.newInstance(users))
+            .commit()
+    }
+    private fun showJadwalMengajarFragment() {
+        // Kirim data user ke fragment agar fragment tahu kode dosen yang login
+        val fragment = JadwalMengajarFragment.newInstance(users)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
             .commit()
     }
 

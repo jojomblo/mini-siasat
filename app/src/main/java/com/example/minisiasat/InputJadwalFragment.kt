@@ -6,63 +6,89 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minisiasat.utils.Course
 import com.example.minisiasat.utils.DatabaseNodes
+import com.example.minisiasat.utils.Lecturer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.util.*
 
 class InputJadwalFragment : Fragment() {
 
-    // --- BAGIAN YANG DIUBAH ---
     private lateinit var scheduleRecyclerView: RecyclerView
-    private lateinit var addScheduleFab: FloatingActionButton // Mengganti Button lama
-    private lateinit var adapter: GroupedScheduleAdapter // Menggunakan adapter baru
-    private val displayList = mutableListOf<ScheduleListItem>() // List untuk tampilan (header + item)
-    private val allCourses = mutableListOf<Course>() // List mentah untuk logika lain
+    private lateinit var addScheduleFab: FloatingActionButton
+    private lateinit var adapter: GroupedScheduleAdapter
+    private val displayList = mutableListOf<ScheduleListItem>()
+    private val allCourses = mutableListOf<Course>()
     private val dayOrder = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
-    // --- AKHIR BAGIAN YANG DIUBAH ---
+
+    // --- PERUBAHAN DI SINI ---
+    // Tambahkan Map untuk menyimpan nama dosen
+    private val lecturerNamesMap = mutableMapOf<String, String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // --- BAGIAN YANG DIUBAH ---
-        // Gunakan layout baru yang lebih modern
         val view = inflater.inflate(R.layout.fragment_input_jadwal, container, false)
         scheduleRecyclerView = view.findViewById(R.id.scheduleRecyclerView)
         addScheduleFab = view.findViewById(R.id.addScheduleFab)
 
-        // Inisialisasi adapter baru
-        adapter = GroupedScheduleAdapter(displayList)
+        // --- PERUBAHAN DI SINI ---
+        // Inisialisasi adapter baru dengan map nama dosen
+        adapter = GroupedScheduleAdapter(displayList, lecturerNamesMap)
         scheduleRecyclerView.layoutManager = LinearLayoutManager(context)
         scheduleRecyclerView.adapter = adapter
 
-        loadSchedules()
+        // Panggil fungsi utama untuk memuat data
+        loadAllData()
 
-        // Listener dipindah ke FAB
         addScheduleFab.setOnClickListener { showAddScheduleDialog() }
-        // --- AKHIR BAGIAN YANG DIUBAH ---
         return view
     }
 
+    // --- FUNGSI BARU ---
+    // Fungsi ini akan mengatur urutan pengambilan data:
+    // 1. Ambil data semua dosen.
+    // 2. Setelah selesai, baru ambil data semua jadwal.
+    private fun loadAllData() {
+        // 1. Ambil data dosen dulu
+        DatabaseNodes.lecturersRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                lecturerNamesMap.clear()
+                for (lecturerSnap in snapshot.children) {
+                    val lecturer = lecturerSnap.getValue(Lecturer::class.java)
+                    val lecturerId = lecturerSnap.key // ID Dosen adalah key dari node nya
+                    if (lecturer != null && lecturerId != null && lecturer.name != null) {
+                        lecturerNamesMap[lecturerId] = lecturer.name
+                    }
+                }
+                // 2. Setelah data dosen didapat, panggil fungsi untuk memuat jadwal
+                loadSchedules()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "Gagal memuat data dosen: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
     private fun loadSchedules() {
+        // Gunakan addValueEventListener agar data selalu real-time
         DatabaseNodes.coursesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // --- BAGIAN YANG DIUBAH ---
-                allCourses.clear() // Bersihkan list mentah
+                allCourses.clear()
                 for (snap in snapshot.children) {
                     val course = snap.getValue(Course::class.java)
                     if (course != null) allCourses.add(course)
                 }
-                // Panggil fungsi baru untuk mengelompokkan data
+                // Proses dan tampilkan ke RecyclerView
                 processAndGroupSchedules(allCourses)
-                adapter.notifyDataSetChanged() // Update tampilan
-                // --- AKHIR BAGIAN YANG DIUBAH ---
+                adapter.notifyDataSetChanged()
             }
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(context, "Gagal memuat jadwal: ${error.message}", Toast.LENGTH_SHORT).show()
@@ -70,17 +96,13 @@ class InputJadwalFragment : Fragment() {
         })
     }
 
-    // --- FUNGSI BARU UNTUK MEMPROSES DAN MENGELOMPOKKAN JADWAL ---
     private fun processAndGroupSchedules(courses: List<Course>) {
         displayList.clear()
         val groupedByDay = courses.groupBy { it.day }
 
         for (day in dayOrder) {
             groupedByDay[day]?.let { coursesOnThisDay ->
-                // 1. Tambah Header Hari
                 displayList.add(ScheduleListItem.DayHeader(day))
-
-                // 2. Tambah semua jadwal di hari itu, urutkan berdasarkan jam mulai
                 val sortedCourses = coursesOnThisDay.sortedBy { it.time?.substringBefore(" - ") }
                 sortedCourses.forEach { course ->
                     displayList.add(ScheduleListItem.CourseItem(course))
@@ -88,14 +110,11 @@ class InputJadwalFragment : Fragment() {
             }
         }
     }
-    // --- AKHIR FUNGSI BARU ---
-
     // =================================================================================
     // TIDAK ADA PERUBAHAN SAMA SEKALI PADA FUNGSI showAddScheduleDialog()
     // =================================================================================
     private fun showAddScheduleDialog() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_schedule, null)
-        // ... (seluruh kode Anda di sini tetap sama persis)
         val kodeInput = dialogView.findViewById<EditText>(R.id.courseCodeInput)
         val courseNameInput = dialogView.findViewById<EditText>(R.id.courseNameInput)
         val creditsInput = dialogView.findViewById<EditText>(R.id.creditsInput)
@@ -104,12 +123,14 @@ class InputJadwalFragment : Fragment() {
         val daySpinner = dialogView.findViewById<Spinner>(R.id.daySpinner)
         val roomInput = dialogView.findViewById<EditText>(R.id.roomInput)
         val academicYearInput = dialogView.findViewById<EditText>(R.id.academicYearInput)
-        val semesterInput = dialogView.findViewById<EditText>(R.id.semesterInput)
+        val semesterInput = dialogView.findViewById<AutoCompleteTextView>(R.id.semesterInput) // Diubah ke AutoCompleteTextView
         val capacityInput = dialogView.findViewById<EditText>(R.id.capacityInput)
         val checkButton = dialogView.findViewById<Button>(R.id.checkAvailabilityButton)
         val timeSelectionLayout = dialogView.findViewById<LinearLayout>(R.id.timeSelectionLayout)
         val timeGrid = dialogView.findViewById<GridLayout>(R.id.timeGrid)
-
+        val semesters = listOf("Ganjil", "Genap", "Pendek")
+        val semesterAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, semesters)
+        semesterInput.setAdapter(semesterAdapter)
         // Setup Spinner Hari
         val daysOfWeek = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat")
         val dayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, daysOfWeek)
@@ -274,7 +295,7 @@ class InputJadwalFragment : Fragment() {
         }
 
         // Konfigurasi AlertDialog
-        AlertDialog.Builder(context)
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
             .setTitle("Tambah Jadwal")
             .setView(dialogView)
             .setPositiveButton("Simpan") { _, _ ->
@@ -286,7 +307,7 @@ class InputJadwalFragment : Fragment() {
                 val day = daySpinner.selectedItem?.toString() ?: ""
                 val room = roomInput.text.toString().trim()
                 val academicYear = academicYearInput.text.toString().trim()
-                val semester = semesterInput.text.toString().trim()
+                val semester = semesterInput.text.toString().trim() // Ambil dari AutoCompleteTextView
                 val capacity = capacityInput.text.toString().trim().toIntOrNull()
 
                 if (selectedStart == null || selectedEnd == null) {

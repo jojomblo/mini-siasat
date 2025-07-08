@@ -1,4 +1,3 @@
-// com/example/minisiasat/GroupedScheduleAdapter.kt
 package com.example.minisiasat
 
 import android.view.LayoutInflater
@@ -8,15 +7,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minisiasat.utils.Course
 
-class GroupedScheduleAdapter(private val items: List<ScheduleListItem>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+// --- PERUBAHAN DI SINI ---
+// Tambahkan parameter 'lecturerNames' pada constructor
+class GroupedScheduleAdapter(
+    private val items: List<ScheduleListItem>,
+    private val lecturerNames: Map<String, String> // Map untuk menyimpan ID -> Nama Dosen
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private const val TYPE_HEADER = 0
         private const val TYPE_COURSE = 1
     }
 
-    // ViewHolder untuk Judul Hari
     inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val dayHeaderTextView: TextView = view.findViewById(R.id.dayHeaderTextView)
         fun bind(day: String) {
@@ -24,11 +26,14 @@ class GroupedScheduleAdapter(private val items: List<ScheduleListItem>) :
         }
     }
 
-    // ViewHolder untuk Kartu Mata Kuliah
     inner class CourseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val courseName: TextView = view.findViewById(R.id.courseNameTextView)
         private val time: TextView = view.findViewById(R.id.timeTextView)
         private val lecturer: TextView = view.findViewById(R.id.lecturerTextView)
+        private val room: TextView = view.findViewById(R.id.roomLocationTextView)
+        private val sks: TextView = view.findViewById(R.id.sksTextView)
+        private val year: TextView = view.findViewById(R.id.yearTextView)
+        private val capacity: TextView = view.findViewById(R.id.capacityTextView)
 
         fun bind(course: Course) {
             val courseTitle = if (course.courseCode.isNullOrEmpty() || course.courseCode == "null") {
@@ -37,8 +42,15 @@ class GroupedScheduleAdapter(private val items: List<ScheduleListItem>) :
                 "${course.courseCode} - ${course.courseName}"
             }
             courseName.text = courseTitle
-            time.text = "${course.day}, ${course.time}" // Menggunakan field 'time' langsung
-            lecturer.text = "Dosen: ${course.lecturerId}"
+            time.text = "${course.day}, ${course.time}"
+
+            val lecturerName = lecturerNames[course.lecturerId] ?: course.lecturerId
+            lecturer.text = "Dosen : ${lecturerName}"
+
+            room.text = "Ruang : ${course.room}"
+            sks.text = "SKS : ${course.credits}"
+            year.text = "Tahun Akademik : ${course.academicYear} - ${course.semester}"
+            capacity.text = "Kapasitas : ${course.capacity ?: "Tidak diketahui"}"
         }
     }
 
