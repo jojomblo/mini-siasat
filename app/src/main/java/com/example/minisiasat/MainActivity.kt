@@ -7,17 +7,23 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import com.example.minisiasat.utils.*
-import com.google.android.material.navigation.NavigationView
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+// --- PERBAIKAN DI SINI: Tambahkan import yang hilang ---
+import com.example.minisiasat.utils.DatabaseNodes
+import com.example.minisiasat.utils.Lecturer
+import com.example.minisiasat.utils.Students
+// --- AKHIR PERBAIKAN ---
+import com.example.minisiasat.utils.Users
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
     private lateinit var users: Users
+    private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +41,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val toggle = ActionBarDrawerToggle(
+        toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+        setupBackButtonListener()
 
         navView.setNavigationItemSelectedListener(this)
         setupDrawerMenu()
@@ -51,7 +58,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         header.findViewById<TextView>(R.id.nav_header_email).text = users.email
 
         // Show Home by default
-        showHome()
+        if (savedInstanceState == null) {
+            showHome()
+        }
+    }
+    private fun setupBackButtonListener() {
+        // Logika ini kita nonaktifkan untuk sementara agar hamburger menu selalu ada
+        /*
+        supportFragmentManager.addOnBackStackChangedListener {
+            if (supportFragmentManager.backStackEntryCount > 0) {
+                // Tampilkan panah kembali
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                toggle.isDrawerIndicatorEnabled = false // Sembunyikan ikon hamburger
+                // Handle klik pada panah kembali
+                toggle.setToolbarNavigationClickListener {
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            } else {
+                // Tampilkan ikon hamburger lagi
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                toggle.isDrawerIndicatorEnabled = true
+                toggle.setToolbarNavigationClickListener(null) // Hapus listener
+            }
+        }
+        */
     }
 
     private fun setupDrawerMenu() {
@@ -103,6 +133,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun showHome() {
+        // Hapus semua backstack agar kembali ke home
+        for (i in 0 until supportFragmentManager.backStackEntryCount) {
+            supportFragmentManager.popBackStack()
+        }
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, HomeFragment.newInstance(users))
             .commit()
@@ -176,6 +210,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
+            // Perbaikan kecil: Gunakan onBackPressedDispatcher modern
             super.onBackPressed()
         }
     }

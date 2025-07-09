@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minisiasat.utils.AttendanceSession
@@ -63,7 +64,6 @@ class AttendanceListFragment : Fragment() {
         view.findViewById<View>(R.id.addAttendanceButton).setOnClickListener {
             showCreateAttendanceDialog()
         }
-
         loadAttendanceSessions()
         return view
     }
@@ -73,13 +73,11 @@ class AttendanceListFragment : Fragment() {
         val topicInput = dialogView.findViewById<EditText>(R.id.topicInput)
         val dateInput = dialogView.findViewById<EditText>(R.id.dateInput)
 
-        // Membuat input tanggal tidak bisa diketik, hanya bisa dipilih dari kalender
         dateInput.isFocusable = false
         dateInput.setOnClickListener {
             val calendar = Calendar.getInstance()
             DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
                 val selectedDate = Calendar.getInstance().apply { set(year, month, dayOfMonth) }
-                // Format tanggal sesuai keinginan
                 val formattedDate = SimpleDateFormat("dd MMMM yyyy", Locale("id", "ID")).format(selectedDate.time)
                 dateInput.setText(formattedDate)
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
@@ -111,38 +109,29 @@ class AttendanceListFragment : Fragment() {
             isOpen = false
         )
 
-        attendanceRef.child(sessionId).setValue(newSession).addOnSuccessListener {
-            Toast.makeText(context, "Sesi absensi berhasil dibuat", Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener {
-            Toast.makeText(context, "Gagal: ${it.message}", Toast.LENGTH_SHORT).show()
-        }
+        attendanceRef.child(sessionId).setValue(newSession)
+            .addOnSuccessListener { Toast.makeText(context, "Sesi berhasil dibuat", Toast.LENGTH_SHORT).show() }
     }
 
     private fun loadAttendanceSessions() {
         attendanceRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 sessionList.clear()
-                for (sessionSnap in snapshot.children) {
+                snapshot.children.forEach { sessionSnap ->
                     sessionSnap.getValue(AttendanceSession::class.java)?.let { sessionList.add(it) }
                 }
                 sessionList.sortByDescending { it.date }
                 attendanceAdapter.notifyDataSetChanged()
             }
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(context, "Gagal memuat sesi absensi: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
+            override fun onCancelled(error: DatabaseError) { /* ... */ }
         })
     }
 
-    // --- FUNGSI YANG HILANG (SEKARANG SUDAH ADA) ---
     private fun toggleAttendanceStatus(session: AttendanceSession) {
         val sessionId = session.sessionId ?: return
-        val newStatus = !session.isOpen
-
-        attendanceRef.child(sessionId).child("open").setValue(newStatus)
+        attendanceRef.child(sessionId).child("open").setValue(!session.isOpen)
     }
 
-    // --- FUNGSI YANG HILANG (SEKARANG SUDAH ADA) ---
     private fun viewAttendanceDetails(session: AttendanceSession) {
         val fragment = AttendanceDetailFragment.newInstance(session, courseCode)
         parentFragmentManager.beginTransaction()

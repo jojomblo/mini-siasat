@@ -44,6 +44,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/courseCodeTextView" />
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/enrolledStudentsRecyclerView"
         android:layout_width="0dp"
