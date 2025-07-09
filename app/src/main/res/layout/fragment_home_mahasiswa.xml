@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F6F9"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".HomeMahasiswaFragment">
+
+        <TextView
+            android:id="@+id/studentNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textStyle="bold"
+            tools:text="Jonathan Aditya Vandra" />
+
+        <TextView
+            android:id="@+id/studentNimTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="672022006 • Mahasiswa Aktif"
+            android:layout_marginBottom="24dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardCornerRadius="12dp"
+                android:layout_marginEnd="8dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total SKS Diambil" android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"/>
+                    <TextView android:id="@+id/totalSksTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" android:textStyle="bold" tools:text="42"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardCornerRadius="12dp"
+                android:layout_marginStart="8dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Posisi Semester" android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"/>
+                    <TextView android:id="@+id/semesterPositionTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" android:textStyle="bold" tools:text="Tahun Ke-2"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            android:layout_marginBottom="24dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Jadwal Kuliah Hari Ini" android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" android:textStyle="bold" android:layout_marginBottom="8dp"/>
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/todayScheduleRecyclerView" android:layout_width="match_parent" android:layout_height="wrap_content" android:visibility="gone" tools:visibility="visible" tools:listitem="@layout/item_schedule_simple"/>
+                <TextView android:id="@+id/noScheduleTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tidak ada jadwal kuliah hari ini." android:visibility="gone" tools:visibility="gone"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Akses Cepat" android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" android:textStyle="bold" android:layout_marginBottom="16dp"/>
+        <GridLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:columnCount="2" android:rowCount="2" android:useDefaultMargins="true">
+            <com.google.android.material.button.MaterialButton android:id="@+id/quickAccessRegistrasi" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Registrasi"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/quickAccessKartuStudi" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Kartu Studi"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/quickAccessJadwal" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Jadwal"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/quickAccessHasilStudi" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Hasil Studi"/>
+        </GridLayout>
+
+    </LinearLayout>
+</ScrollView>

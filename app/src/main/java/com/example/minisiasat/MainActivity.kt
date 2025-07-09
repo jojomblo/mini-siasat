@@ -1,5 +1,6 @@
 package com.example.minisiasat
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -16,6 +17,7 @@ import com.example.minisiasat.utils.Lecturer
 import com.example.minisiasat.utils.Students
 // --- AKHIR PERBAIKAN ---
 import com.example.minisiasat.utils.Users
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -41,6 +43,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        val logoutButton = navView.findViewById<MaterialButton>(R.id.logout_button)
+        logoutButton.setOnClickListener {
+            logoutUser()
+        }
         toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -109,6 +115,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 menu.findItem(R.id.nav_input_nilai).isVisible = true
                 if (users.position?.uppercase() == "KAPRODI") {
                     menu.findItem(R.id.nav_input_jadwal).isVisible = true
+                    navView.menu.findItem(R.id.nav_manage_period).isVisible = true
                 }
             }
         }
@@ -120,9 +127,66 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_home -> showHome()
             R.id.nav_input_jadwal -> showInputJadwalFragment()
             R.id.nav_jadwal_mengajar -> showJadwalMengajarFragment()
+            R.id.nav_input_nilai -> showInputNilaiFragment()
+            R.id.nav_registrasi -> showRegistrasiFragment()
+            R.id.nav_kartu_studi -> showKartuStudiFragment()
+            R.id.nav_jadwal_kuliah -> showJadwalKuliahFragment()
+            R.id.nav_hasil_studi -> showHasilStudiFragment()
+            R.id.nav_transkrip -> showTranskripFragment()
+            R.id.nav_manage_period -> showManagePeriodFragment()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+    // ... di dalam MainActivity
+
+    private fun showManagePeriodFragment() {
+        // Arahkan ke list, bukan ke detail langsung
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, PeriodsListFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+    private fun showTranskripFragment() {
+        val fragment = TranskripFragment.newInstance(users)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    private fun showHasilStudiFragment() {
+        val fragment = HasilStudiFragment.newInstance(users)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    private fun showJadwalKuliahFragment() {
+        val fragment = JadwalKuliahFragment.newInstance(users)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    private fun showKartuStudiFragment() {
+        val fragment = KartuStudiFragment.newInstance(users)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    private fun showRegistrasiFragment() {
+        val fragment = RegistrasiFragment.newInstance(users)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    private fun logoutUser() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     private fun showInputJadwalFragment() {
@@ -131,19 +195,41 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .addToBackStack(null)
             .commit()
     }
+    fun navigateToMenuItem(itemId: Int) {
+        // Cari item menu berdasarkan ID yang dikirim
+        val item = navView.menu.findItem(itemId)
+        if (item != null) {
+            // Panggil fungsi navigasi yang sudah ada
+            onNavigationItemSelected(item)
+        }
+    }
 
     private fun showHome() {
-        // Hapus semua backstack agar kembali ke home
         for (i in 0 until supportFragmentManager.backStackEntryCount) {
             supportFragmentManager.popBackStack()
         }
+
+        // --- INI PERUBAHANNYA ---
+        val fragment = when (users.role) {
+            "dosen" -> HomeDosenFragment.newInstance(users)
+            "mahasiswa" -> HomeMahasiswaFragment.newInstance(users) // Tampilkan home mahasiswa
+            else -> HomeFragment.newInstance(users)
+        }
+
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, HomeFragment.newInstance(users))
+            .replace(R.id.fragment_container, fragment)
             .commit()
     }
     private fun showJadwalMengajarFragment() {
         // Kirim data user ke fragment agar fragment tahu kode dosen yang login
         val fragment = JadwalMengajarFragment.newInstance(users)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    private fun showInputNilaiFragment() {
+        val fragment = InputNilaiFragment.newInstance(users)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)

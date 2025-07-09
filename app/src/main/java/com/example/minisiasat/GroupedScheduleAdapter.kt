@@ -6,12 +6,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minisiasat.utils.Course
+// Tambahan import yang diperlukan
+import com.example.minisiasat.utils.DatabaseNodes
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
-// 1. Tambahkan parameter 'onItemClicked' pada constructor
 class GroupedScheduleAdapter(
     private val items: List<ScheduleListItem>,
     private val lecturerNames: Map<String, String>,
-    private val onItemClicked: ((Course) -> Unit)? = null // Lambda untuk menangani klik
+    private val onItemClicked: ((Course) -> Unit)? = null
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -48,10 +52,30 @@ class GroupedScheduleAdapter(
             room.text = "Ruang : ${course.room}"
             sks.text = "SKS : ${course.credits}"
             year.text = "Tahun Akademik : ${course.academicYear} - ${course.semester}"
-            capacity.text = "Kapasitas : ${course.capacity ?: "Tidak diketahui"}"
 
-            // 2. Set OnClickListener untuk seluruh item view
-            // Hanya aktifkan listener jika diset (tidak null)
+            capacity.text = "Kapasitas : ... / ${course.capacity ?: "N/A"}"
+
+            course.courseCode?.let { code ->
+                // Mengambil data dari Firebase
+                DatabaseNodes.courseRostersRef.child(code).child("students")
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val enrolledCount = snapshot.childrenCount
+                            // Memperbarui teks dengan data yang sudah didapat
+                            capacity.text = "Kapasitas : $enrolledCount / ${course.capacity ?: "N/A"}"
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            // Jika gagal, tampilkan placeholder
+                            capacity.text = "Kapasitas : - / ${course.capacity ?: "N/A"}"
+                        }
+                    })
+            } ?: run {
+                // Jika kode mata kuliah tidak ada, tampilkan data kapasitas saja
+                capacity.text = "Kapasitas : ${course.capacity ?: "Tidak diketahui"}"
+            }
+            // --- AKHIR BAGIAN YANG DIPERBARUI ---
+
             if(onItemClicked != null) {
                 itemView.setOnClickListener {
                     onItemClicked.invoke(course)

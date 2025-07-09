@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F4F6F9"
-    tools:context=".CourseDetailFragment">
+    tools:context=".KartuStudiDetailFragment">
 
     <TextView
         android:id="@+id/courseTitleTextView"
@@ -41,7 +41,7 @@
         android:layout_margin="16dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/manageAttendanceButton"
+        app:layout_constraintBottom_toTopOf="@+id/dropCourseButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/courseCodeTextView">
@@ -60,47 +60,29 @@
                 android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="8dp">
-
-                <TextView
-                    style="@style/TextAppearance.MaterialComponents.Caption"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:text="No." />
-
-                <TextView
-                    style="@style/TextAppearance.MaterialComponents.Caption"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="NIM" />
-
-                <TextView
-                    style="@style/TextAppearance.MaterialComponents.Caption"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="NAMA MAHASISWA" />
+                <TextView style="@style/TextAppearance.MaterialComponents.Caption" android:layout_width="30dp" android:layout_height="wrap_content" android:text="No." />
+                <TextView style="@style/TextAppearance.MaterialComponents.Caption" android:layout_width="100dp" android:layout_height="wrap_content" android:text="NIM" />
+                <TextView style="@style/TextAppearance.MaterialComponents.Caption" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="NAMA MAHASISWA" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/enrolledStudentsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:listitem="@layout/item_enrolled_student_table" />
-
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/manageAttendanceButton"
+        android:id="@+id/dropCourseButton"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Lihat &amp; Kelola Absensi"
+        android:backgroundTint="@color/warningRed"
+        android:text="Hapus Mata Kuliah dari Kartu Studi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
