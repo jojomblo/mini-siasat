@@ -1,32 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".ManagePeriodFragment">
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/yearTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kelola Periode"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_marginBottom="24dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Manajemen Periode Akademik"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:layout_marginBottom="24dp"/>
-
+        android:text="Semester Ganjil"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchRegistration"
+        android:id="@+id/switchRegGanjil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Periode Registrasi Mata Kuliah"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:layout_marginBottom="16dp"/>
-
+        android:text="Buka Registrasi"/>
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchLecture"
+        android:id="@+id/switchLecGanjil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Periode Perkuliahan (Absensi)"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+        android:text="Buka Perkuliahan"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Semester Genap"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_marginTop="24dp"/>
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchRegGenap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Buka Registrasi"/>
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchLecGenap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Buka Perkuliahan"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Semester Antara"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_marginTop="24dp"/>
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchRegAntara"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Buka Registrasi"/>
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchLecAntara"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Buka Perkuliahan"/>
 </LinearLayout>
