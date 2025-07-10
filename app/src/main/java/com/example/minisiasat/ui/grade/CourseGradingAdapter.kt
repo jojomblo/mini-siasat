@@ -1,3 +1,5 @@
+// Lokasi: app/src/main/java/com/example/minisiasat/ui/grade/CourseGradingAdapter.kt
+
 package com.example.minisiasat.ui.grade
 
 import android.view.LayoutInflater
@@ -36,13 +38,10 @@ class CourseGradingAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val (nim, student, grade) = studentGradeList[position]
-
         holder.rowNumber.text = "${position + 1}."
         holder.studentName.text = student.name
         holder.studentNim.text = nim
-
         holder.gradeButton.text = grade?.grade ?: "—"
-
         holder.gradeButton.setOnClickListener {
             onGradeButtonClicked(nim, grade?.grade)
         }

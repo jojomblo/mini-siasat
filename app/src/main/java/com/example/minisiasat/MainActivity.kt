@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-// --- PERBAIKAN DI SINI: Tambahkan import yang hilang ---
-// --- AKHIR PERBAIKAN ---
 import com.example.minisiasat.domain.model.Users
 import com.example.minisiasat.ui.auth.LoginActivity
 import com.example.minisiasat.ui.coursecard.CourseCardFragment
@@ -22,7 +20,7 @@ import com.example.minisiasat.ui.home.HomeMahasiswaFragment
 import com.example.minisiasat.ui.period.PeriodsListFragment
 import com.example.minisiasat.ui.registration.EnrollmentFragment
 import com.example.minisiasat.ui.schedule.AddScheduleFragment
-import com.example.minisiasat.ui.schedule.CourseGradingFragment
+import com.example.minisiasat.ui.grade.SelectCourseToGradeFragment
 import com.example.minisiasat.ui.schedule.ScheduleFragment
 import com.example.minisiasat.ui.schedule.LecturerScheduleFragment
 import com.example.minisiasat.ui.transcript.TranscriptFragment
@@ -113,7 +111,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_home -> showHome()
             R.id.nav_input_jadwal -> showAddScheduleFragment()
             R.id.nav_jadwal_mengajar -> showLecturerSchedule()
-            R.id.nav_input_nilai -> showGradeReportingFragment()
+            R.id.nav_input_nilai -> showCourseGradingFragment()
             R.id.nav_registrasi -> showEnrollmentFragment()
             R.id.nav_kartu_studi -> showCourseCardFragment()
             R.id.nav_jadwal_kuliah -> showScheduleFragment()
@@ -208,8 +206,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .addToBackStack(null)
             .commit()
     }
-    private fun showGradeReportingFragment() {
-        val fragment = CourseGradingFragment.newInstance(users)
+    private fun showCourseGradingFragment() {
+        val fragment = SelectCourseToGradeFragment.newInstance(users)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)

@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener
 import android.widget.TextView
 import com.example.minisiasat.R
 import com.example.minisiasat.ui.course.CourseAdapter
-import com.example.minisiasat.ui.course.CourseGroup
+import com.example.minisiasat.domain.model.CourseGroup
 import com.example.minisiasat.ui.course.CourseSelectionFragment
 
 class EnrollmentFragment : Fragment() {

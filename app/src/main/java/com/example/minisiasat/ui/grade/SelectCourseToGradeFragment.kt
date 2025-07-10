@@ -1,4 +1,4 @@
-package com.example.minisiasat.ui.schedule
+package com.example.minisiasat.ui.grade
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,28 +9,29 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minisiasat.R
-import com.example.minisiasat.domain.model.Course
 import com.example.minisiasat.data.DatabaseNodes
+import com.example.minisiasat.domain.model.Course
 import com.example.minisiasat.domain.model.Lecturer
 import com.example.minisiasat.domain.model.Users
-import com.example.minisiasat.ui.grade.CourseGradingAdapter
+import com.example.minisiasat.ui.schedule.GroupedScheduleAdapter
+import com.example.minisiasat.domain.model.Schedule
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
-class CourseGradingFragment : Fragment() {
+class SelectCourseToGradeFragment : Fragment() {
 
     private lateinit var coursesRecyclerView: RecyclerView
     private lateinit var adapter: GroupedScheduleAdapter
-    private val displayList = mutableListOf<ScheduleListData>()
+    private val displayList = mutableListOf<Schedule>()
     private val lecturerNamesMap = mutableMapOf<String, String>()
     private val dayOrder = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
     private var currentUser: Users? = null
 
     companion object {
         private const val ARG_USER = "user"
-        fun newInstance(user: Users): CourseGradingAdapter {
-            val fragment = CourseGradingAdapter()
+        fun newInstance(user: Users): SelectCourseToGradeFragment {
+            val fragment = SelectCourseToGradeFragment()
             val args = Bundle()
             args.putSerializable(ARG_USER, user)
             fragment.arguments = args
@@ -54,7 +55,7 @@ class CourseGradingFragment : Fragment() {
 
         adapter = GroupedScheduleAdapter(displayList, lecturerNamesMap) { selectedCourse ->
             // Saat item mata kuliah diklik, buka fragment untuk input nilai
-            val fragment = CourseGradingAdapter.newInstance(selectedCourse.courseCode!!)
+            val fragment = GradeInputFragment.newInstance(selectedCourse.courseCode!!) // Navigasi ke fragment input nilai
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
@@ -129,10 +130,10 @@ class CourseGradingFragment : Fragment() {
         val groupedByDay = courses.groupBy { it.day }
         for (day in dayOrder) {
             groupedByDay[day]?.let { coursesOnThisDay ->
-                displayList.add(ScheduleListData.DayHeader(day))
+                displayList.add(Schedule.DayHeader(day))
                 val sortedCourses = coursesOnThisDay.sortedBy { it.time?.substringBefore(" - ") }
                 sortedCourses.forEach { course ->
-                    displayList.add(ScheduleListData.CourseData(course))
+                    displayList.add(Schedule.CourseData(course))
                 }
             }
         }

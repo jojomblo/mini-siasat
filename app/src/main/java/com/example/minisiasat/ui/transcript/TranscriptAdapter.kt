@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minisiasat.R
-import com.example.minisiasat.ui.gradereport.CourseGrade
+import com.example.minisiasat.domain.model.CourseGrade
 
 class TranscriptAdapter(
     private val courseGrades: List<CourseGrade>

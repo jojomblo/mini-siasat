@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minisiasat.ui.schedule.GroupedScheduleAdapter
 import com.example.minisiasat.R
-import com.example.minisiasat.ui.schedule.ScheduleListData
+import com.example.minisiasat.domain.model.Schedule
 import com.example.minisiasat.data.DatabaseNodes
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -79,7 +79,7 @@ class CourseSelectionFragment : Fragment() {
                             val courses = snapshot.children.mapNotNull { it.getValue(Course::class.java) }
 
                             val adapter = GroupedScheduleAdapter(
-                                items = courses.map { ScheduleListData.CourseData(it) },
+                                items = courses.map { Schedule.CourseData(it) },
                                 lecturerNames = lecturerNamesMap,
                                 onItemClicked = { selectedCourse ->
                                     showConfirmationDialog(selectedCourse)

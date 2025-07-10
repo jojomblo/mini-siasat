@@ -13,7 +13,7 @@ import com.example.minisiasat.data.DatabaseNodes
 import com.example.minisiasat.domain.model.Course
 import com.example.minisiasat.domain.model.Grade
 import com.example.minisiasat.domain.model.Users
-import com.example.minisiasat.ui.gradereport.CourseGrade
+import com.example.minisiasat.domain.model.CourseGrade
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener

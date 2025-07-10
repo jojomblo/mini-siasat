@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minisiasat.R
+import com.example.minisiasat.domain.model.CourseGroup
 
-data class CourseGroup(val prefix: String, val representativeName: String)
 
 class CourseAdapter(
     private val courseGroups: List<CourseGroup>,

@@ -13,6 +13,7 @@ import com.example.minisiasat.R
 import com.example.minisiasat.domain.model.Course
 import com.example.minisiasat.data.DatabaseNodes
 import com.example.minisiasat.domain.model.Lecturer
+import com.example.minisiasat.domain.model.Schedule
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -25,7 +26,7 @@ class AddScheduleFragment : Fragment() {
     private lateinit var scheduleRecyclerView: RecyclerView
     private lateinit var addScheduleFab: FloatingActionButton
     private lateinit var adapter: GroupedScheduleAdapter
-    private val displayList = mutableListOf<ScheduleListData>()
+    private val displayList = mutableListOf<Schedule>()
     private val allCourses = mutableListOf<Course>()
     private val dayOrder = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
 
@@ -89,10 +90,10 @@ class AddScheduleFragment : Fragment() {
 
         for (day in dayOrder) {
             groupedByDay[day]?.let { coursesOnThisDay ->
-                displayList.add(ScheduleListData.DayHeader(day))
+                displayList.add(Schedule.DayHeader(day))
                 val sortedCourses = coursesOnThisDay.sortedBy { it.time?.substringBefore(" - ") }
                 sortedCourses.forEach { course ->
-                    displayList.add(ScheduleListData.CourseData(course))
+                    displayList.add(Schedule.CourseData(course))
                 }
             }
         }

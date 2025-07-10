@@ -6,10 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minisiasat.R
-import com.example.minisiasat.domain.model.Course
-import com.example.minisiasat.domain.model.Grade
-
-data class CourseGrade(val course: Course, val grade: Grade?)
+import com.example.minisiasat.domain.model.CourseGrade
 
 class GradeReportAdapter(
     private val courseGrades: List<CourseGrade>
@@ -31,8 +28,6 @@ class GradeReportAdapter(
         val item = courseGrades[position]
         holder.courseName.text = item.course.courseName
         holder.courseInfo.text = "${item.course.courseCode} • ${item.course.credits} SKS"
-
-        // Tampilkan nilai jika ada, jika tidak tampilkan "-"
         holder.grade.text = item.grade?.grade ?: "-"
     }
 

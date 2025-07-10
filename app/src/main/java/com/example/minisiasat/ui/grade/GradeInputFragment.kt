@@ -19,20 +19,20 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
-// NAMA CLASS YANG BENAR: CourseGradingFragment
-class CourseGradingFragment : Fragment() {
+class GradeInputFragment : Fragment() {
 
     private lateinit var courseCode: String
+    private var course: Course? = null
     private lateinit var courseTitleTextView: TextView
     private lateinit var studentsRecyclerView: RecyclerView
-    private lateinit var adapter: CourseGradingAdapter // Adapter yang benar
+    private lateinit var adapter: CourseGradingAdapter
 
     private val studentGradeList = mutableListOf<Triple<String, Students, Grade?>>()
 
     companion object {
         private const val ARG_COURSE_CODE = "course_code"
-        fun newInstance(courseCode: String): CourseGradingFragment { // Return fragment yg benar
-            val fragment = CourseGradingFragment()
+        fun newInstance(courseCode: String): GradeInputFragment {
+            val fragment = GradeInputFragment()
             val args = Bundle()
             args.putString(ARG_COURSE_CODE, courseCode)
             fragment.arguments = args
@@ -55,7 +55,6 @@ class CourseGradingFragment : Fragment() {
         courseTitleTextView = view.findViewById(R.id.gradeInputCourseTitle)
         studentsRecyclerView = view.findViewById(R.id.studentsForGradingRecyclerView)
 
-        // Inisialisasi adapter yang benar
         adapter = CourseGradingAdapter { studentId, _ ->
             showGradeSelectionDialog(studentId)
         }
@@ -68,7 +67,6 @@ class CourseGradingFragment : Fragment() {
         return view
     }
 
-    // ... (Sisa fungsi lainnya sudah benar dan tidak perlu diubah)
     private fun showGradeSelectionDialog(studentId: String) {
         val grades = arrayOf("A", "AB", "B", "BC", "C", "D", "E")
         AlertDialog.Builder(requireContext())
@@ -81,9 +79,16 @@ class CourseGradingFragment : Fragment() {
     }
 
     private fun saveGrade(studentId: String, gradeValue: String) {
+        val currentCourse = course
+        if (currentCourse == null) {
+            Toast.makeText(context, "Data mata kuliah tidak ditemukan, tidak dapat menyimpan nilai.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // PERBAIKAN: Menggunakan data dari variabel `course`
         val gradeData = Grade(
-            academicYear = "2024/2025",
-            semester = "Ganjil",
+            academicYear = currentCourse.academicYear,
+            semester = currentCourse.semester,
             finalScore = null,
             grade = gradeValue
         )
@@ -103,14 +108,16 @@ class CourseGradingFragment : Fragment() {
             }
     }
 
-
     private fun loadCourseAndStudentData() {
         DatabaseNodes.coursesRef.child(courseCode).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val course = snapshot.getValue(Course::class.java)
+                // PERBAIKAN: Menyimpan objek Course ke dalam variabel
+                course = snapshot.getValue(Course::class.java)
                 courseTitleTextView.text = "${course?.courseCode} - ${course?.courseName}"
             }
-            override fun onCancelled(error: DatabaseError) { /* Handle error */ }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "Gagal memuat data mata kuliah: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
         })
 
         DatabaseNodes.courseRostersRef.child(courseCode).child("students")
@@ -123,7 +130,9 @@ class CourseGradingFragment : Fragment() {
                         Toast.makeText(context, "Belum ada mahasiswa di kelas ini.", Toast.LENGTH_SHORT).show()
                     }
                 }
-                override fun onCancelled(error: DatabaseError) { /* Handle error */ }
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(context, "Gagal memuat daftar mahasiswa: ${error.message}", Toast.LENGTH_SHORT).show()
+                }
             })
     }
 
@@ -143,10 +152,14 @@ class CourseGradingFragment : Fragment() {
                         studentGradeList.sortBy { it.second.name }
                         adapter.submitList(studentGradeList)
                     }
-                    override fun onCancelled(error: DatabaseError) { /* Handle error */ }
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(context, "Gagal memuat data nilai: ${error.message}", Toast.LENGTH_SHORT).show()
+                    }
                 })
             }
-            override fun onCancelled(error: DatabaseError) { /* Handle error */ }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "Gagal memuat data mahasiswa: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
         })
     }
 }

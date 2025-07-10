@@ -12,6 +12,7 @@ import com.example.minisiasat.R
 import com.example.minisiasat.domain.model.Course
 import com.example.minisiasat.data.DatabaseNodes
 import com.example.minisiasat.domain.model.Lecturer
+import com.example.minisiasat.domain.model.Schedule
 import com.example.minisiasat.domain.model.Users
 import com.example.minisiasat.ui.course.CourseDetailFragment
 import com.google.firebase.database.DataSnapshot
@@ -22,7 +23,7 @@ class LecturerScheduleFragment : Fragment() {
 
     private lateinit var scheduleRecyclerView: RecyclerView
     private lateinit var adapter: GroupedScheduleAdapter
-    private val displayList = mutableListOf<ScheduleListData>()
+    private val displayList = mutableListOf<Schedule>()
     private val lecturerNamesMap = mutableMapOf<String, String>()
     private val dayOrder = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
     private var currentUser: Users? = null
@@ -131,10 +132,10 @@ class LecturerScheduleFragment : Fragment() {
         val groupedByDay = courses.groupBy { it.day }
         for (day in dayOrder) {
             groupedByDay[day]?.let { coursesOnThisDay ->
-                displayList.add(ScheduleListData.DayHeader(day))
+                displayList.add(Schedule.DayHeader(day))
                 val sortedCourses = coursesOnThisDay.sortedBy { it.time?.substringBefore(" - ") }
                 sortedCourses.forEach { course ->
-                    displayList.add(ScheduleListData.CourseData(course))
+                    displayList.add(Schedule.CourseData(course))
                 }
             }
         }

@@ -9,12 +9,13 @@ import com.example.minisiasat.R
 import com.example.minisiasat.domain.model.Course
 // Tambahan import yang diperlukan
 import com.example.minisiasat.data.DatabaseNodes
+import com.example.minisiasat.domain.model.Schedule
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 class GroupedScheduleAdapter(
-    private val items: List<ScheduleListData>,
+    private val items: List<Schedule>,
     private val lecturerNames: Map<String, String>,
     private val onItemClicked: ((Course) -> Unit)? = null
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -82,8 +83,8 @@ class GroupedScheduleAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is ScheduleListData.DayHeader -> TYPE_HEADER
-            is ScheduleListData.CourseData -> TYPE_COURSE
+            is Schedule.DayHeader -> TYPE_HEADER
+            is Schedule.CourseData -> TYPE_COURSE
         }
     }
 
@@ -99,8 +100,8 @@ class GroupedScheduleAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = items[position]) {
-            is ScheduleListData.DayHeader -> (holder as HeaderViewHolder).bind(item.day)
-            is ScheduleListData.CourseData -> (holder as CourseViewHolder).bind(item.course)
+            is Schedule.DayHeader -> (holder as HeaderViewHolder).bind(item.day)
+            is Schedule.CourseData -> (holder as CourseViewHolder).bind(item.course)
         }
     }
 

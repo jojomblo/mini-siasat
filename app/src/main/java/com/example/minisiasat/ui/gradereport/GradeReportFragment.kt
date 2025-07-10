@@ -15,6 +15,7 @@ import com.example.minisiasat.domain.model.Users
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.example.minisiasat.domain.model.CourseGrade
 
 class GradeReportFragment : Fragment() {
 
@@ -48,13 +49,11 @@ class GradeReportFragment : Fragment() {
     private fun loadEnrolledCoursesWithGrades() {
         val studentId = users.kode ?: return
 
-        // 1. Ambil kode mata kuliah yang diambil mahasiswa
         DatabaseNodes.studentEnrollmentsRef.child(studentId).child("courses")
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(enrolledSnapshot: DataSnapshot) {
                     val enrolledCourseCodes = enrolledSnapshot.children.mapNotNull { it.key }
                     if (enrolledCourseCodes.isNotEmpty()) {
-                        // 2. Ambil detail dan nilai untuk setiap mata kuliah
                         fetchDetailsAndGrades(enrolledCourseCodes, studentId)
                     }
                 }
@@ -63,7 +62,6 @@ class GradeReportFragment : Fragment() {
     }
 
     private fun fetchDetailsAndGrades(courseCodes: List<String>, studentId: String) {
-        // Ambil semua data courses dan grades sekali jalan
         DatabaseNodes.coursesRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(coursesSnapshot: DataSnapshot) {
                 DatabaseNodes.gradesRef.child(studentId).addListenerForSingleValueEvent(object: ValueEventListener {

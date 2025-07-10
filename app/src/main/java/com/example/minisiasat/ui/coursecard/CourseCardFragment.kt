@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.minisiasat.ui.schedule.GroupedScheduleAdapter
 import com.example.minisiasat.R
-import com.example.minisiasat.ui.schedule.ScheduleListData
-import com.example.minisiasat.domain.model.Course
 import com.example.minisiasat.data.DatabaseNodes
+import com.example.minisiasat.domain.model.Course
+import com.example.minisiasat.domain.model.Lecturer
+import com.example.minisiasat.domain.model.Schedule
 import com.example.minisiasat.domain.model.Users
+import com.example.minisiasat.ui.schedule.GroupedScheduleAdapter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -21,8 +23,6 @@ class CourseCardFragment : Fragment() {
 
     private lateinit var users: Users
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: GroupedScheduleAdapter
-    private val enrolledCourses = mutableListOf<Course>()
 
     companion object {
         private const val ARG_USER = "user"
@@ -48,11 +48,32 @@ class CourseCardFragment : Fragment() {
         recyclerView = view.findViewById(R.id.enrolledCoursesRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        loadEnrolledCourses()
+        loadLecturerData()
         return view
     }
 
-    private fun loadEnrolledCourses() {
+    private fun loadLecturerData() {
+        val lecturerNamesMap = mutableMapOf<String, String>()
+        DatabaseNodes.lecturersRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (lecturerSnap in snapshot.children) {
+                    val lecturer = lecturerSnap.getValue(Lecturer::class.java)
+                    val id = lecturerSnap.key
+                    if (lecturer != null && id != null && lecturer.name != null) {
+                        lecturerNamesMap[id] = lecturer.name
+                    }
+                }
+                loadEnrolledCourses(lecturerNamesMap)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                loadEnrolledCourses(emptyMap())
+                Toast.makeText(context, "Gagal memuat data dosen.", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun loadEnrolledCourses(lecturerNames: Map<String, String>) {
         val studentId = users.kode ?: return
 
         DatabaseNodes.studentEnrollmentsRef.child(studentId).child("courses")
@@ -62,28 +83,26 @@ class CourseCardFragment : Fragment() {
 
                     DatabaseNodes.coursesRef.addListenerForSingleValueEvent(object: ValueEventListener {
                         override fun onDataChange(coursesSnapshot: DataSnapshot) {
-                            enrolledCourses.clear()
+                            val enrolledCourses = mutableListOf<Course>()
                             enrolledCourseCodes.forEach { code ->
                                 coursesSnapshot.child(code).getValue(Course::class.java)?.let {
                                     enrolledCourses.add(it)
                                 }
                             }
 
-                            // --- INI BAGIAN YANG DIPERBARUI ---
-                            // Setup adapter dengan aksi untuk navigasi ke detail
-                            adapter = GroupedScheduleAdapter(
-                                items = enrolledCourses.map { ScheduleListData.CourseData(it) },
-                                lecturerNames = emptyMap()
-                            ) { selectedCourse ->
-                                // Buka fragment detail saat item diklik
-                                val fragment = CourseCardAdapter.newInstance(users, selectedCourse)
-                                parentFragmentManager.beginTransaction()
-                                    .replace(R.id.fragment_container, fragment)
-                                    .addToBackStack(null)
-                                    .commit()
-                            }
+                            val adapter = GroupedScheduleAdapter(
+                                items = enrolledCourses.map { Schedule.CourseData(it) },
+                                lecturerNames = lecturerNames,
+                                onItemClicked = { selectedCourse ->
+                                    // PERBAIKAN: Menggunakan nama class yang benar
+                                    val fragment = CourseCardAdapter.newInstance(users, selectedCourse)
+                                    parentFragmentManager.beginTransaction()
+                                        .replace(R.id.fragment_container, fragment)
+                                        .addToBackStack(null)
+                                        .commit()
+                                }
+                            )
                             recyclerView.adapter = adapter
-                            // ---------------------------------
                         }
                         override fun onCancelled(error: DatabaseError) { /* ... */ }
                     })
