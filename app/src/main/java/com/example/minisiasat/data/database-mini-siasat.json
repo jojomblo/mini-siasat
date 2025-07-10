@@ -1,0 +1,476 @@
+{
+  "attendance": {
+    "TC531A": {
+      "-OUfGivemTBDuu7Joyn-": {
+        "date": "09 Juli 2025",
+        "open": false,
+        "sessionId": "-OUfGivemTBDuu7Joyn-",
+        "topic": "Pertemuan 1"
+      },
+      "-OUfGmrxxLKP4nL41cQj": {
+        "date": "09 Juli 2025",
+        "open": false,
+        "sessionId": "-OUfGmrxxLKP4nL41cQj",
+        "topic": "Pertemuan 2"
+      },
+      "-OUfKRnoojpZE00RTpEQ": {
+        "attendees": {
+          "672022006": true,
+          "672022029": true
+        },
+        "date": "11 Juli 2025",
+        "open": true,
+        "sessionId": "-OUfKRnoojpZE00RTpEQ",
+        "topic": "Pertemuan 3"
+      }
+    }
+  },
+  "course_rosters": {
+    "TC531A": {
+      "students": {
+        "672022006": true,
+        "672022015": true,
+        "672022018": true,
+        "672022025": true,
+        "672022026": true,
+        "672022028": true,
+        "672022029": true,
+        "672022033": true,
+        "672022037": true,
+        "672022038": true,
+        "672022042": true,
+        "672022058": true
+      }
+    }
+  },
+  "courses": {
+    "TC531A": {
+      "academicYear": "2024/2025",
+      "capacity": 40,
+      "courseCode": "TC531A",
+      "courseName": "Pemprograman Mobile",
+      "credits": 3,
+      "day": "Kamis",
+      "department": "Teknologi Informasi",
+      "lecturerId": "67045",
+      "room": "FTI469",
+      "semester": "Genap",
+      "time": "07:00 - 11:00"
+    },
+    "TC531B": {
+      "academicYear": "2024/2025",
+      "capacity": 40,
+      "courseCode": "TC531B",
+      "courseName": "Pemprograman Mobile",
+      "credits": 3,
+      "day": "Senin",
+      "department": "Teknologi Informasi",
+      "lecturerId": "67086",
+      "room": "FTI466",
+      "semester": "Genap",
+      "time": "10:00 - 14:00"
+    },
+    "TC577A": {
+      "academicYear": "2024/2025",
+      "capacity": 40,
+      "courseCode": "TC577A",
+      "courseName": "Grafika Komputer",
+      "credits": 3,
+      "day": "Rabu",
+      "department": "Tehnik Informatika",
+      "lecturerId": "67045",
+      "room": "FTI467",
+      "semester": "Genap",
+      "time": "13:00 - 17:00"
+    },
+    "TC577B": {
+      "academicYear": "2024/2025",
+      "capacity": 40,
+      "courseCode": "TC577B",
+      "courseName": "Grafika Komputer",
+      "credits": 3,
+      "day": "Senin",
+      "department": "Teknik Informatika",
+      "lecturerId": "67086",
+      "room": "FTI469",
+      "semester": "Genap",
+      "time": "14:00 - 18:00"
+    }
+  },
+  "grades": {
+    "672022006": {
+      "TC531A": {
+        "academicYear": "2024/2025",
+        "grade": "A",
+        "semester": "Genap"
+      }
+    },
+    "672022015": {
+      "TC531A": {
+        "academicYear": "2024/2025",
+        "grade": "A",
+        "semester": "Genap"
+      }
+    },
+    "672022018": {
+      "TC531A": {
+        "academicYear": "2024/2025",
+        "grade": "A",
+        "semester": "Genap"
+      }
+    },
+    "672022025": {
+      "TC531A": {
+        "academicYear": "2024/2025",
+        "grade": "A",
+        "semester": "Genap"
+      }
+    },
+    "672022026": {
+      "TC531A": {
+        "academicYear": "2024/2025",
+        "grade": "A",
+        "semester": "Genap"
+      }
+    },
+    "672022028": {
+      "TC531A": {
+        "academicYear": "2024/2025",
+        "grade": "A",
+        "semester": "Genap"
+      }
+    },
+    "672022029": {
+      "TC531A": {
+        "academicYear": "2024/2025",
+        "grade": "A",
+        "semester": "Genap"
+      }
+    },
+    "672022033": {
+      "TC531A": {
+        "academicYear": "2024/2025",
+        "grade": "A",
+        "semester": "Genap"
+      }
+    },
+    "672022037": {
+      "TC531A": {
+        "academicYear": "2024/2025",
+        "grade": "A",
+        "semester": "Genap"
+      }
+    },
+    "672022038": {
+      "TC531A": {
+        "academicYear": "2024/2025",
+        "grade": "A",
+        "semester": "Genap"
+      }
+    },
+    "672022042": {
+      "TC531A": {
+        "academicYear": "2024/2025",
+        "grade": "A",
+        "semester": "Genap"
+      }
+    },
+    "672022058": {
+      "TC531A": {
+        "academicYear": "2024/2025",
+        "grade": "A",
+        "semester": "Genap"
+      }
+    }
+  },
+  "lecturers": {
+    "67045": {
+      "department": "Informatika",
+      "name": "Pratyaksa Ocsa Nugraha Saian, S.Kom., M.T.",
+      "userUid": "userUid456"
+    },
+    "67086": {
+      "department": "Informatika",
+      "name": "Budhi Kristianto, S.Kom., M.Sc., Ph.D.",
+      "userUid": "userUid789"
+    },
+    "67087": {
+      "department": "Informatika",
+      "name": "Dr. Wiwin Sulistyo, S.T., M.Kom.",
+      "userUid": "userUid67087"
+    },
+    "67088": {
+      "department": "Informatika",
+      "name": "Evans Mailoa, S.Kom., M.Cs.",
+      "userUid": "userUid67088"
+    }
+  },
+  "periods": {
+    "2024-2025": [
+      null,
+      {
+        "isLectureOpen": false,
+        "isRegistrationOpen": false
+      },
+      {
+        "isLectureOpen": false,
+        "isRegistrationOpen": true
+      },
+      {
+        "isLectureOpen": false,
+        "isRegistrationOpen": false
+      }
+    ]
+  },
+  "student_enrollments": {
+    "672022006": {
+      "courses": {
+        "TC531A": true
+      }
+    },
+    "672022015": {
+      "courses": {
+        "TC531A": true
+      }
+    },
+    "672022018": {
+      "courses": {
+        "TC531A": true
+      }
+    },
+    "672022025": {
+      "courses": {
+        "TC531A": true
+      }
+    },
+    "672022026": {
+      "courses": {
+        "TC531A": true
+      }
+    },
+    "672022028": {
+      "courses": {
+        "TC531A": true
+      }
+    },
+    "672022029": {
+      "courses": {
+        "TC531A": true
+      }
+    },
+    "672022033": {
+      "courses": {
+        "TC531A": true
+      }
+    },
+    "672022037": {
+      "courses": {
+        "TC531A": true
+      }
+    },
+    "672022038": {
+      "courses": {
+        "TC531A": true
+      }
+    },
+    "672022042": {
+      "courses": {
+        "TC531A": true
+      }
+    },
+    "672022058": {
+      "courses": {
+        "TC531A": true
+      }
+    }
+  },
+  "students": {
+    "672022006": {
+      "entryYear": "2022",
+      "major": "Informatika",
+      "name": "Jonathan Aditya Vandra",
+      "userUid": "userUid123"
+    },
+    "672022015": {
+      "entryYear": "2022",
+      "major": "Informatika",
+      "name": "CLAUDIO CANAVARO",
+      "userUid": "userUid2015"
+    },
+    "672022018": {
+      "entryYear": "2022",
+      "major": "Informatika",
+      "name": "IGNATIUS MARCEL SADANAHENSA",
+      "userUid": "userUid2018"
+    },
+    "672022025": {
+      "entryYear": "2022",
+      "major": "Informatika",
+      "name": "VINCENTIUS DAVIN DAMARA CHRISTIAWAN",
+      "userUid": "userUid2025"
+    },
+    "672022026": {
+      "entryYear": "2022",
+      "major": "Informatika",
+      "name": "ALEXANDER MARIO SAPUTRA",
+      "userUid": "userUid2026"
+    },
+    "672022028": {
+      "entryYear": "2022",
+      "major": "Informatika",
+      "name": "PRADENA TIARA MAHARANI",
+      "userUid": "userUid2028"
+    },
+    "672022029": {
+      "entryYear": "2022",
+      "major": "Informatika",
+      "name": "JEFFREY HERLY",
+      "userUid": "userUid2029"
+    },
+    "672022033": {
+      "entryYear": "2022",
+      "major": "Informatika",
+      "name": "AYU FAZA ISLAMI",
+      "userUid": "userUid2033"
+    },
+    "672022037": {
+      "entryYear": "2022",
+      "major": "Informatika",
+      "name": "ENRICO PUTRA WIJAYA",
+      "userUid": "userUid2037"
+    },
+    "672022038": {
+      "entryYear": "2022",
+      "major": "Informatika",
+      "name": "ENRICO ARDIAN",
+      "userUid": "userUid2038"
+    },
+    "672022042": {
+      "entryYear": "2022",
+      "major": "Informatika",
+      "name": "AMELIA CINDY WIDJANARKO",
+      "userUid": "userUid2042"
+    },
+    "672022058": {
+      "entryYear": "2022",
+      "major": "Informatika",
+      "name": "ABIMANYU AGUNG NUGRAHA",
+      "userUid": "userUid2058"
+    }
+  },
+  "users": {
+    "userUid123": {
+      "email": "672022006@student.uksw.edu",
+      "kode": "672022006",
+      "name": "Jonathan",
+      "password": "672022006",
+      "role": "mahasiswa"
+    },
+    "userUid2015": {
+      "email": "672022015@student.uksw.edu",
+      "kode": "672022015",
+      "name": "CLAUDIO CANAVARO",
+      "password": "672022015",
+      "role": "mahasiswa"
+    },
+    "userUid2018": {
+      "email": "672022018@student.uksw.edu",
+      "kode": "672022018",
+      "name": "IGNATIUS MARCEL SADANAHENSA",
+      "password": "672022018",
+      "role": "mahasiswa"
+    },
+    "userUid2025": {
+      "email": "672022025@student.uksw.edu",
+      "kode": "672022025",
+      "name": "VINCENTIUS DAVIN DAMARA CHRISTIAWAN",
+      "password": "672022025",
+      "role": "mahasiswa"
+    },
+    "userUid2026": {
+      "email": "672022026@student.uksw.edu",
+      "kode": "672022026",
+      "name": "ALEXANDER MARIO SAPUTRA",
+      "password": "672022026",
+      "role": "mahasiswa"
+    },
+    "userUid2028": {
+      "email": "672022028@student.uksw.edu",
+      "kode": "672022028",
+      "name": "PRADENA TIARA MAHARANI",
+      "password": "672022028",
+      "role": "mahasiswa"
+    },
+    "userUid2029": {
+      "email": "672022029@student.uksw.edu",
+      "kode": "672022029",
+      "name": "JEFFREY HERLY",
+      "password": "672022029",
+      "role": "mahasiswa"
+    },
+    "userUid2033": {
+      "email": "672022033@student.uksw.edu",
+      "kode": "672022033",
+      "name": "AYU FAZA ISLAMI",
+      "password": "672022033",
+      "role": "mahasiswa"
+    },
+    "userUid2037": {
+      "email": "672022037@student.uksw.edu",
+      "kode": "672022037",
+      "name": "ENRICO PUTRA WIJAYA",
+      "password": "672022037",
+      "role": "mahasiswa"
+    },
+    "userUid2038": {
+      "email": "672022038@student.uksw.edu",
+      "kode": "672022038",
+      "name": "ENRICO ARDIAN",
+      "password": "672022038",
+      "role": "mahasiswa"
+    },
+    "userUid2042": {
+      "email": "672022042@student.uksw.edu",
+      "kode": "672022042",
+      "name": "AMELIA CINDY WIDJANARKO",
+      "password": "672022042",
+      "role": "mahasiswa"
+    },
+    "userUid2058": {
+      "email": "672022058@student.uksw.edu",
+      "kode": "672022058",
+      "name": "ABIMANYU AGUNG NUGRAHA",
+      "password": "672022058",
+      "role": "mahasiswa"
+    },
+    "userUid456": {
+      "email": "pratyaksa.ocsa@uksw.edu",
+      "kode": "67045",
+      "name": "Pratyaksa Ocsa Nugraha Saian",
+      "password": "67045",
+      "role": "dosen"
+    },
+    "userUid67087": {
+      "email": "wiwin.sulistyo@uksw.edu",
+      "kode": "67087",
+      "name": "Dr. Wiwin Sulistyo",
+      "password": "67087",
+      "role": "dosen"
+    },
+    "userUid67088": {
+      "email": "evans.mailoa@uksw.edu",
+      "kode": "67088",
+      "name": "Evans Mailoa",
+      "password": "67088",
+      "role": "dosen"
+    },
+    "userUid789": {
+      "email": "budhi.kristianto@uksw.edu",
+      "kode": "67086",
+      "name": "Budhi Kristianto",
+      "password": "67086",
+      "position": "KAPRODI",
+      "role": "dosen"
+    }
+  }
+}
