@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#F4F6F9"
     android:padding="16dp"
-    tools:context=".RegistrasiFragment">
+    tools:context=".ui.registration.EnrollmentFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

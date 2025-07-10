@@ -12,11 +12,20 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 // --- PERBAIKAN DI SINI: Tambahkan import yang hilang ---
-import com.example.minisiasat.utils.DatabaseNodes
-import com.example.minisiasat.utils.Lecturer
-import com.example.minisiasat.utils.Students
 // --- AKHIR PERBAIKAN ---
-import com.example.minisiasat.utils.Users
+import com.example.minisiasat.domain.model.Users
+import com.example.minisiasat.ui.auth.LoginActivity
+import com.example.minisiasat.ui.coursecard.CourseCardFragment
+import com.example.minisiasat.ui.gradereport.GradeReportFragment
+import com.example.minisiasat.ui.home.HomeDosenFragment
+import com.example.minisiasat.ui.home.HomeMahasiswaFragment
+import com.example.minisiasat.ui.period.PeriodsListFragment
+import com.example.minisiasat.ui.registration.EnrollmentFragment
+import com.example.minisiasat.ui.schedule.AddScheduleFragment
+import com.example.minisiasat.ui.schedule.CourseGradingFragment
+import com.example.minisiasat.ui.schedule.ScheduleFragment
+import com.example.minisiasat.ui.schedule.LecturerScheduleFragment
+import com.example.minisiasat.ui.transcript.TranscriptFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.navigation.NavigationView
 
@@ -53,7 +62,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-        setupBackButtonListener()
 
         navView.setNavigationItemSelectedListener(this)
         setupDrawerMenu()
@@ -63,36 +71,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         header.findViewById<TextView>(R.id.nav_header_name).text = users.name
         header.findViewById<TextView>(R.id.nav_header_email).text = users.email
 
-        // Show Home by default
+
         if (savedInstanceState == null) {
             showHome()
         }
     }
-    private fun setupBackButtonListener() {
-        // Logika ini kita nonaktifkan untuk sementara agar hamburger menu selalu ada
-        /*
-        supportFragmentManager.addOnBackStackChangedListener {
-            if (supportFragmentManager.backStackEntryCount > 0) {
-                // Tampilkan panah kembali
-                supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                toggle.isDrawerIndicatorEnabled = false // Sembunyikan ikon hamburger
-                // Handle klik pada panah kembali
-                toggle.setToolbarNavigationClickListener {
-                    onBackPressedDispatcher.onBackPressed()
-                }
-            } else {
-                // Tampilkan ikon hamburger lagi
-                supportActionBar?.setDisplayHomeAsUpEnabled(false)
-                toggle.isDrawerIndicatorEnabled = true
-                toggle.setToolbarNavigationClickListener(null) // Hapus listener
-            }
-        }
-        */
-    }
 
     private fun setupDrawerMenu() {
         val menu: Menu = navView.menu
-        // Hide all except Home
         menu.findItem(R.id.nav_registrasi).isVisible = false
         menu.findItem(R.id.nav_kartu_studi).isVisible = false
         menu.findItem(R.id.nav_jadwal_kuliah).isVisible = false
@@ -125,60 +111,64 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         when (item.itemId) {
             R.id.nav_home -> showHome()
-            R.id.nav_input_jadwal -> showInputJadwalFragment()
-            R.id.nav_jadwal_mengajar -> showJadwalMengajarFragment()
-            R.id.nav_input_nilai -> showInputNilaiFragment()
-            R.id.nav_registrasi -> showRegistrasiFragment()
-            R.id.nav_kartu_studi -> showKartuStudiFragment()
-            R.id.nav_jadwal_kuliah -> showJadwalKuliahFragment()
-            R.id.nav_hasil_studi -> showHasilStudiFragment()
-            R.id.nav_transkrip -> showTranskripFragment()
+            R.id.nav_input_jadwal -> showAddScheduleFragment()
+            R.id.nav_jadwal_mengajar -> showLecturerSchedule()
+            R.id.nav_input_nilai -> showGradeReportingFragment()
+            R.id.nav_registrasi -> showEnrollmentFragment()
+            R.id.nav_kartu_studi -> showCourseCardFragment()
+            R.id.nav_jadwal_kuliah -> showScheduleFragment()
+            R.id.nav_hasil_studi -> showGradeReportFragment()
+            R.id.nav_transkrip -> showTranscriptFragment()
             R.id.nav_manage_period -> showManagePeriodFragment()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
-    // ... di dalam MainActivity
 
     private fun showManagePeriodFragment() {
-        // Arahkan ke list, bukan ke detail langsung
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, PeriodsListFragment())
             .addToBackStack(null)
             .commit()
     }
-    private fun showTranskripFragment() {
-        val fragment = TranskripFragment.newInstance(users)
+    private fun showTranscriptFragment() {
+        val fragment = TranscriptFragment.newInstance(users)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
     }
-    private fun showHasilStudiFragment() {
-        val fragment = HasilStudiFragment.newInstance(users)
+    private fun showGradeReportFragment() {
+        val fragment = GradeReportFragment.newInstance(users)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
     }
-    private fun showJadwalKuliahFragment() {
-        val fragment = JadwalKuliahFragment.newInstance(users)
+    private fun showScheduleFragment() {
+        val fragment = ScheduleFragment.newInstance(users)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
     }
-    private fun showKartuStudiFragment() {
-        val fragment = KartuStudiFragment.newInstance(users)
+    private fun showCourseCardFragment() {
+        val fragment = CourseCardFragment.newInstance(users)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
     }
-    private fun showRegistrasiFragment() {
-        val fragment = RegistrasiFragment.newInstance(users)
+    private fun showEnrollmentFragment() {
+        val fragment = EnrollmentFragment.newInstance(users)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    private fun showAddScheduleFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, AddScheduleFragment())
             .addToBackStack(null)
             .commit()
     }
@@ -189,115 +179,41 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         finish()
     }
 
-    private fun showInputJadwalFragment() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, InputJadwalFragment())
-            .addToBackStack(null)
-            .commit()
-    }
+
     fun navigateToMenuItem(itemId: Int) {
-        // Cari item menu berdasarkan ID yang dikirim
         val item = navView.menu.findItem(itemId)
         if (item != null) {
-            // Panggil fungsi navigasi yang sudah ada
             onNavigationItemSelected(item)
         }
     }
-
     private fun showHome() {
         for (i in 0 until supportFragmentManager.backStackEntryCount) {
             supportFragmentManager.popBackStack()
         }
 
-        // --- INI PERUBAHANNYA ---
-        val fragment = when (users.role) {
-            "dosen" -> HomeDosenFragment.newInstance(users)
-            "mahasiswa" -> HomeMahasiswaFragment.newInstance(users) // Tampilkan home mahasiswa
-            else -> HomeFragment.newInstance(users)
+        val fragment = if (users.role =="dosen") {
+            HomeDosenFragment.newInstance(users)}
+        else   {
+           HomeMahasiswaFragment.newInstance(users)
         }
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
-    private fun showJadwalMengajarFragment() {
-        // Kirim data user ke fragment agar fragment tahu kode dosen yang login
-        val fragment = JadwalMengajarFragment.newInstance(users)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
-    private fun showInputNilaiFragment() {
-        val fragment = InputNilaiFragment.newInstance(users)
+    private fun showLecturerSchedule() {
+        val fragment = LecturerScheduleFragment.newInstance(users)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
     }
-
-    private fun loadStudentData(kode: String?, textView: TextView) {
-        if (kode == null) {
-            textView.text = "Kode mahasiswa tidak tersedia"
-            return
-        }
-        DatabaseNodes.studentsRef.child(kode)
-            .addListenerForSingleValueEvent(object : com.google.firebase.database.ValueEventListener {
-                override fun onDataChange(snapshot: com.google.firebase.database.DataSnapshot) {
-                    val student = snapshot.getValue(Students::class.java)
-                    student?.let {
-                        val info = """
-                            Halo, ${it.name}
-                            Email: ${users.email}
-                            Prodi: ${it.major}
-                            Tahun Masuk: ${it.entryYear}
-                        """.trimIndent()
-                        textView.text = info
-                    } ?: run {
-                        textView.text = "Data mahasiswa tidak ditemukan."
-                    }
-                }
-                override fun onCancelled(error: com.google.firebase.database.DatabaseError) {
-                    textView.text = "Gagal ambil data mahasiswa: ${error.message}"
-                }
-            })
+    private fun showGradeReportingFragment() {
+        val fragment = CourseGradingFragment.newInstance(users)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
-    private fun loadLecturerData(kode: String?, textView: TextView) {
-        if (kode == null) {
-            textView.text = "Kode dosen tidak tersedia"
-            return
-        }
-        DatabaseNodes.lecturersRef.child(kode)
-            .addListenerForSingleValueEvent(object : com.google.firebase.database.ValueEventListener {
-                override fun onDataChange(snapshot: com.google.firebase.database.DataSnapshot) {
-                    val lecturer = snapshot.getValue(Lecturer::class.java)
-                    lecturer?.let {
-                        val info = """
-                            Halo, ${users.name} (${users.role})
-                            Email: ${users.email}
-                            -------------------------
-                            Nama Dosen: ${it.name}
-                            Departemen: ${it.department}
-                            Jabatan: ${users.position ?: "DOSEN"}
-                        """.trimIndent()
-                        textView.text = info
-                    } ?: run {
-                        textView.text = "Data dosen tidak ditemukan."
-                    }
-                }
-                override fun onCancelled(error: com.google.firebase.database.DatabaseError) {
-                    textView.text = "Gagal ambil data dosen: ${error.message}"
-                }
-            })
-    }
-
-    override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            // Perbaikan kecil: Gunakan onBackPressedDispatcher modern
-            super.onBackPressed()
-        }
-    }
 }

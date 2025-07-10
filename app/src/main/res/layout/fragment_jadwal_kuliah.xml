@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="#F4F6F9"
     android:padding="16dp"
-    tools:context=".JadwalKuliahFragment">
+    tools:context=".ui.schedule.ScheduleFragment">
 
     <TextView
         android:layout_width="wrap_content"

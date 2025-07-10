@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F4F6F9"
-    tools:context=".GradeInputFragment">
+    tools:context=".ui.grade.CourseGradingAdapter">
 
     <TextView
         android:id="@+id/gradeInputCourseTitle"

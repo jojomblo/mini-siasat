@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="#F4F6F9"
-    tools:context=".HomeDosenFragment">
+    tools:context=".ui.home.HomeDosenFragment">
 
     <TextView
         android:id="@+id/greetingTextView"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F4F6F9"
-    tools:context=".KartuStudiDetailFragment">
+    tools:context=".ui.coursecard.CourseCardAdapter">
 
     <TextView
         android:id="@+id/courseTitleTextView"
